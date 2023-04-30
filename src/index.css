@@ -9,3 +9,7 @@
 .cs-primary-btn {
   @apply bg-amber-500 hover:bg-amber-600 border-0 normal-case;
 }
+
+.active-place {
+  @apply border-2 border-amber-500;
+}
