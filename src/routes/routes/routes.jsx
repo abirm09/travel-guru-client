@@ -14,13 +14,16 @@ const routes = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
-        loader: () => fetch("http://localhost:5000/places/all"),
+        loader: () =>
+          fetch("https://travel-guru-server-rose.vercel.app/places/all"),
       },
       {
         path: "/place/:id",
         element: <PlaceDetailsBooking />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/place/id/${params.id}`),
+          fetch(
+            `https://travel-guru-server-rose.vercel.app/place/id/${params.id}`
+          ),
       },
     ],
   },

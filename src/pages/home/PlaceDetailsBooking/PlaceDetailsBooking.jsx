@@ -17,13 +17,13 @@ const PlaceDetailsBooking = () => {
   const location = useLocation();
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:5000/division/all")
+    fetch("https://travel-guru-server-rose.vercel.app/division/all")
       .then(res => res.json())
       .then(data => {
         const sorted = data.sort();
         setDivision(sorted);
       });
-    fetch("http://localhost:5000/times/date")
+    fetch("https://travel-guru-server-rose.vercel.app/times/date")
       .then(res => res.json())
       .then(data => setDate(data));
   }, []);

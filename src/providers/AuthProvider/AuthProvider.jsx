@@ -18,7 +18,7 @@ const AuthProvider = ({ children }) => {
   const googleAuth = new GoogleAuthProvider();
   //get all places
   useEffect(() => {
-    fetch("http://localhost:5000/places/all")
+    fetch("https://travel-guru-server-rose.vercel.app/places/all")
       .then(res => res.json())
       .then(data => {
         setStoreAllPlace(data);
