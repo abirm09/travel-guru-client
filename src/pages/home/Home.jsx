@@ -2,11 +2,9 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import SingleImg from "./SingleImg/SingleImg";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaArrowRight } from "react-icons/fa";
-import { AuthContext } from "../../providers/AuthProvider/AuthProvider";
 const Home = () => {
-  const { setStoreAllPlace } = useContext(AuthContext);
   const allPlaces = useLoaderData();
   const [selectedPlace, setSelectedPlace] = useState(allPlaces[0]);
   const navigate = useNavigate();
@@ -16,9 +14,6 @@ const Home = () => {
       spacing: 15,
     },
   });
-  useEffect(() => {
-    setStoreAllPlace(allPlaces);
-  }, []);
   const handleSelectedPlace = id => {
     const allSliders = document.querySelectorAll(".keen-slider__slide");
     for (const allSlider of allSliders) {

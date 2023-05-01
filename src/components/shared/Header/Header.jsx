@@ -1,23 +1,16 @@
+/* eslint-disable react/prop-types */
 import logWhite from "../../../logo-white.png";
 import logDark from "../../../logo-dark.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
 import { FaSearch, FaBars } from "react-icons/fa";
 const Header = ({ isWhite }) => {
-  const { user } = useContext(AuthContext);
-  const [storeAllPlace, setStoreAllPlace] = useState([]);
+  const { user, storeAllPlace, logOutUser } = useContext(AuthContext);
   const [searchRes, setSearchRes] = useState([]);
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showSearchSuggestion, setShowSearchSuggestion] = useState(false);
   const navigate = useNavigate();
-  useEffect(() => {
-    fetch("http://localhost:5000/places/all")
-      .then(res => res.json())
-      .then(data => {
-        setStoreAllPlace(data);
-      });
-  }, []);
   const handleSearch = event => {
     const searchResultArr = [];
     for (const singlePlace of storeAllPlace) {
@@ -33,7 +26,13 @@ const Header = ({ isWhite }) => {
   const handleFocusOut = () => {
     setTimeout(() => {
       setShowSearchSuggestion(false);
-    }, 200);
+    }, 300);
+  };
+  //log out
+  const handleLogOut = () => {
+    logOutUser()
+      .then()
+      .catch(err => console.log(err));
   };
   return (
     <header className="py-5 lg:py-9">
@@ -54,14 +53,18 @@ const Header = ({ isWhite }) => {
             className={`absolute lg:static col-span-1 lg:col-span-10 lg:flex justify-between flex-wrap items-center space-y-5 lg:space-y-0 mt-5 lg:mt-0 transition-all h-screen lg:h-auto bg-slate-800 lg:bg-transparent -ml-2 lg:ml-0 pl-10 lg:pl-0 pt-10 lg:pt-0 z-30 pr-5 -top-5`}
             style={{ left: `${mobileMenuShow ? 0 : "-100%"}` }}
           >
-            <div className="max-w-[370px] w-full bg-opacity-25 bg-white border-white border text-white rounded-md flex ">
+            <div
+              className={`${
+                isWhite ? "flex" : "hidden"
+              } max-w-[370px] w-full bg-opacity-25 bg-white border-white border text-white rounded-md`}
+            >
               <span className="p-4">
                 <FaSearch />
               </span>
               <div className="relative w-full">
                 <input
                   type="text"
-                  className="form-control w-full p-3 bg-transparent border-none"
+                  className="form-control w-full p-3 bg-transparent outline-none"
                   placeholder="Search your destination..."
                   onKeyUp={handleSearch}
                   onFocus={() => setShowSearchSuggestion(true)}
@@ -77,7 +80,7 @@ const Header = ({ isWhite }) => {
                       <li
                         key={res.id}
                         onClick={() => navigate(`place/${res.id}`)}
-                        className="px-5 border py-2"
+                        className="px-5 border py-2 select-none cursor-pointer"
                       >
                         {res.name}
                       </li>
@@ -86,7 +89,7 @@ const Header = ({ isWhite }) => {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="ml-auto">
               <ul
                 className={`${
                   isWhite ? "text-white" : "text-black"
@@ -107,7 +110,10 @@ const Header = ({ isWhite }) => {
                 {!user ? (
                   <>
                     <li>
-                      <button className="btn cs-primary-btn text-black">
+                      <button
+                        onClick={() => navigate("/accounts/login")}
+                        className="btn cs-primary-btn text-black"
+                      >
                         Login
                       </button>
                     </li>
@@ -117,9 +123,24 @@ const Header = ({ isWhite }) => {
                     <li
                       className={`${
                         isWhite ? "text-white" : "text-black"
-                      } font-bold`}
+                      } font-bold select-none cursor-pointer dropdown dropdown-hover`}
                     >
-                      {user?.displayName || "No name found"}
+                      <label tabIndex={0} className="m-1">
+                        {user?.displayName
+                          ? user?.displayName
+                          : "No name found"}
+                      </label>
+                      <ul
+                        tabIndex={0}
+                        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 text-black"
+                      >
+                        <li>
+                          <a>Profile</a>
+                        </li>
+                        <li>
+                          <a onClick={handleLogOut}>Log out</a>
+                        </li>
+                      </ul>
                     </li>
                   </>
                 )}
