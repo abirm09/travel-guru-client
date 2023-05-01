@@ -6,7 +6,8 @@ import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 const Registration = () => {
-  const { createUserWithEmail, signInWithGoogle } = useContext(AuthContext);
+  const { createUserWithEmail, signInWithGoogle, signInWIthFacebook } =
+    useContext(AuthContext);
   const [passStrength, setPassStrength] = useState("");
   const [passStrengthOnInput, setPassStrengthOnInput] = useState("");
   const [show, setShow] = useState(false);
@@ -69,6 +70,11 @@ const Registration = () => {
   };
   const handleGoogleLogin = () => {
     signInWithGoogle()
+      .then(result => console.log(result.user))
+      .catch(err => console.log(err));
+  };
+  const handleFaceBookLogIn = () => {
+    signInWIthFacebook()
       .then(result => console.log(result.user))
       .catch(err => console.log(err));
   };
@@ -161,7 +167,10 @@ const Registration = () => {
             or
           </span>
           <div className="mt-10 space-y-5 flex flex-col items-center">
-            <button className="btn bg-transparent border-1 border-gray-300 items-center text-black normal-case gap-2 rounded-full pl-1 hover:bg-gray-300 hover:border-gray-300 w-4/5 justify-between">
+            <button
+              onClick={handleFaceBookLogIn}
+              className="btn bg-transparent border-1 border-gray-300 items-center text-black normal-case gap-2 rounded-full pl-1 hover:bg-gray-300 hover:border-gray-300 w-4/5 justify-between"
+            >
               <img
                 src={facebook}
                 alt="Log in with google"

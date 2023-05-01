@@ -7,6 +7,7 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import app from "../../utils/firebase/firebase.config";
 export const AuthContext = createContext("");
@@ -16,6 +17,7 @@ const AuthProvider = ({ children }) => {
   const [storeAllPlace, setStoreAllPlace] = useState([]);
   const [bookingRoute, setBookingRoute] = useState("/");
   const googleAuth = new GoogleAuthProvider();
+  const facebookAuth = new FacebookAuthProvider();
   //get all places
   useEffect(() => {
     fetch("https://travel-guru-server-rose.vercel.app/places/all")
@@ -27,10 +29,10 @@ const AuthProvider = ({ children }) => {
   //create user with email and pass
   const createUserWithEmail = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
-  //google log on
-  const signInWithGoogle = () => {
-    return signInWithPopup(auth, googleAuth);
-  };
+  //google log in
+  const signInWithGoogle = () => signInWithPopup(auth, googleAuth);
+  //facebook log in
+  const signInWIthFacebook = () => signInWithPopup(auth, facebookAuth);
   //log out
   const logOutUser = () => signOut(auth);
   //observe user
@@ -51,6 +53,7 @@ const AuthProvider = ({ children }) => {
     createUserWithEmail,
     logOutUser,
     signInWithGoogle,
+    signInWIthFacebook,
   };
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };
