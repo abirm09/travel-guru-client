@@ -5,6 +5,7 @@ import PlaceDetailsBooking from "../../pages/home/PlaceDetailsBooking/PlaceDetai
 import Accounts from "../../layouts/Accounts";
 import Login from "../../pages/Accounts/Login/Login";
 import Registration from "../../pages/Accounts/Registration/Registration";
+import PasswordReset from "../../pages/Accounts/PasswordReset/PasswordReset";
 
 const routes = createBrowserRouter([
   {
@@ -15,14 +16,14 @@ const routes = createBrowserRouter([
         path: "/",
         element: <Home />,
         loader: () =>
-          fetch("https://travel-guru-server-rose.vercel.app/places/all"),
+          fetch("https://travel-guru-server-abirm09.vercel.app/places/all"),
       },
       {
         path: "/place/:id",
         element: <PlaceDetailsBooking />,
         loader: ({ params }) =>
           fetch(
-            `https://travel-guru-server-rose.vercel.app/place/id/${params.id}`
+            `https://travel-guru-server-abirm09.vercel.app/place/id/${params.id}`
           ),
       },
     ],
@@ -38,6 +39,10 @@ const routes = createBrowserRouter([
       {
         path: "/accounts/registration",
         element: <Registration />,
+      },
+      {
+        path: "/accounts/reset-password",
+        element: <PasswordReset />,
       },
     ],
   },

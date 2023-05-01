@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import logWhite from "../../../logo-white.png";
 import logDark from "../../../logo-dark.png";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
 import { FaSearch, FaBars } from "react-icons/fa";
@@ -11,6 +11,7 @@ const Header = ({ isWhite }) => {
   const [mobileMenuShow, setMobileMenuShow] = useState(false);
   const [showSearchSuggestion, setShowSearchSuggestion] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const handleSearch = event => {
     const searchResultArr = [];
     for (const singlePlace of storeAllPlace) {
@@ -35,7 +36,11 @@ const Header = ({ isWhite }) => {
       .catch(err => console.log(err));
   };
   return (
-    <header className="py-5 lg:py-9">
+    <header
+      className={`py-5 lg:py-9 ${
+        location.pathname === "/accounts/reset-password" && "hidden"
+      }`}
+    >
       <div className="cs-container">
         <nav className="grid grid-cols-2 lg:grid-cols-12 ">
           <figure className="col-span-1 lg:col-span-2">
