@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import app from "../../utils/firebase/firebase.config";
 export const AuthContext = createContext("");
@@ -13,6 +15,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [storeAllPlace, setStoreAllPlace] = useState([]);
   const [bookingRoute, setBookingRoute] = useState("/");
+  const googleAuth = new GoogleAuthProvider();
   //get all places
   useEffect(() => {
     fetch("http://localhost:5000/places/all")
@@ -24,6 +27,10 @@ const AuthProvider = ({ children }) => {
   //create user with email and pass
   const createUserWithEmail = (email, password) =>
     createUserWithEmailAndPassword(auth, email, password);
+  //google log on
+  const signInWithGoogle = () => {
+    return signInWithPopup(auth, googleAuth);
+  };
   //log out
   const logOutUser = () => signOut(auth);
   //observe user
@@ -43,6 +50,7 @@ const AuthProvider = ({ children }) => {
     bookingRoute,
     createUserWithEmail,
     logOutUser,
+    signInWithGoogle,
   };
   return <AuthContext.Provider value={data}>{children}</AuthContext.Provider>;
 };

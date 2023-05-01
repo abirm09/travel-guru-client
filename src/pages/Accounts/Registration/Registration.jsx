@@ -6,7 +6,7 @@ import { AuthContext } from "../../../providers/AuthProvider/AuthProvider";
 import { updateProfile } from "firebase/auth";
 
 const Registration = () => {
-  const { createUserWithEmail } = useContext(AuthContext);
+  const { createUserWithEmail, signInWithGoogle } = useContext(AuthContext);
   const [passStrength, setPassStrength] = useState("");
   const [passStrengthOnInput, setPassStrengthOnInput] = useState("");
   const [show, setShow] = useState(false);
@@ -66,6 +66,11 @@ const Registration = () => {
     ) {
       setPassStrengthOnInput("Strong");
     }
+  };
+  const handleGoogleLogin = () => {
+    signInWithGoogle()
+      .then(result => console.log(result.user))
+      .catch(err => console.log(err));
   };
   return (
     <div className="cs-container">
@@ -166,7 +171,10 @@ const Registration = () => {
                 Continue with Facebook
               </span>
             </button>
-            <button className="btn bg-transparent border-1 border-gray-300 items-center text-black normal-case gap-2 rounded-full pl-1 hover:bg-gray-300 hover:border-gray-300 w-4/5 justify-between">
+            <button
+              onClick={handleGoogleLogin}
+              className="btn bg-transparent border-1 border-gray-300 items-center text-black normal-case gap-2 rounded-full pl-1 hover:bg-gray-300 hover:border-gray-300 w-4/5 justify-between"
+            >
               <img
                 src={googleLogo}
                 alt="Log in with google"
